@@ -1,0 +1,57 @@
+pq = []                                                         
+n= int(raw_input('Enter the total no of processes: '))                    
+print ""
+
+for pro in range(n):                                                      
+    pq.append([])                                               
+    pq[pro].append(raw_input('Enter p_name: '))                  
+    pq[pro].append(float(raw_input('Enter p_arrival: ')))         
+    pq[pro].append(float(raw_input('Enter p_bust: ')))             
+print ""
+
+pq.sort(key=lambda pq:pq[1])                                   
+print '\t\tProcessName\tArrivalTime\tBurstTime'
+for pro in range(n):
+    print '\t\t',pq[pro][0],'\t\t',pq[pro][1],'\t\t',pq[pro][2]
+    print ""
+total_burst_time=0
+total_waiting_time=0
+total_turn_around_time=0
+st=pq[0][1]
+et=pq[0][2]+st
+tt=et-pq[0][1]
+tt1=tt
+for i in pq[1:]:    
+    if et>i[1]:
+        st=et
+        et=st+i[2]
+        tt=et-i[1]
+    elif et<i[1]:
+        st=i[1]
+        et=st+i[2]
+        tt=et-i[1]
+    elif et==i[1]:
+        st=et
+        et=st+i[2]
+        tt=et-i[1]
+    else:
+        print "Sorry"
+    total_waiting_time+=st-i[1]
+    total_turn_around_time+=tt
+    total_burst_time+=i[2]
+idle_time=et-(total_burst_time+pq[0][2])
+total_turn_around=total_turn_around_time+tt1
+print""    
+print "total_burst_time :",total_burst_time+pq[0][2]
+print""
+print "Finall end_time of last processor :",et
+print""
+print "total_waiting_time :",total_waiting_time
+print""
+print"total_turn_around_time",total_turn_around
+print""
+print"Average_waiting_time: ",total_waiting_time/n
+print ""
+print"Average_turn_around_time:",total_turn_around/n
+print ""
+print "idle time of CPU:",idle_time
